@@ -1,44 +1,60 @@
 var child = require('child_process'),
   util = require('util'),
-  netstat = child.spawn('netstat', ['-nb']),
-  out = '';
+  netstatd = child.spawn('netstat', ['-panFeetc']);
 
-netstat.stdout.on('data', function(data) {
-  out += data;
-});
+/*
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode       PID/Program name Timer
+tcp        0      0 0.0.0.0:27017           0.0.0.0:*               LISTEN      115        8677        -                off (0.00/0/0)
+tcp        0      0 0.0.0.0:13887           0.0.0.0:*               LISTEN      1000       163046      29355/spotify    keepalive (0.00/0/0)
+tcp        0      0 192.168.0.15:36701      173.194.34.89:80        ESTABLISHED 1000       1363954     3932/chrome --no-st keepalive (13.25/0/0)
+tcp        0      0 127.0.0.1:27017         127.0.0.1:55427         ESTABLISHED 115        534398      -                keepalive (87.75/0/0)
+*/
 
-netstat.stderr.on('data', function(data) {
-  console.log('err: ' + data);
-});
+var headers = [];
 
-netstat.on('exit', function(code) {
-  var i, bucket = [], processes = {};
-  if(code !== 0) {
-    console.log('!!! exited, status code: ' + code);
-    return;
-  }
+function combine ( keys, values ) {
+  var obj = {};
 
-  // parse & serialize netstat output
-  out = out.split(/\n/);
-  // drop the first three lines...
-  for(i = 0; i <= 3; i++) out.shift();
-  out.forEach(function(entry) {
-    if(!entry) return;
-    entry = entry.replace(/^\s\s*/, '').replace(/\r/, '').replace('Can not obtain ownership information', '[???]').split(/[ ]+/);
-    if(entry[0][0] == '[') {
-      i = entry[0].replace(/^\[([^\]]+)\]$/, '$1');
-      if(processes[i] === undefined) processes[i] = [];
-      processes[i] = processes[i].concat(bucket);
-      bucket = [];
-    } else {
-      bucket.push({
-        conntype:entry[0],
-        source:entry[1],
-        dest:entry[2]
-        //status:entry[3],
-      });
-    }
+  values.forEach( function( value, key ){
+    obj[ keys[ key ] ] = value;
   });
-  out = JSON.stringify(processes);
-  // READY FOR DISPATCH! *salute*
+
+  return obj;
+}
+
+function parse ( dataString ) {
+
+  var lines = ( dataString.toString('utf-8').split('\n') || [] );
+
+  lines.forEach( function( line, key ){
+
+    var columns = line.split(/\s/);
+
+    if( headers.length > 0 ){
+      lines[ key ] = combine( headers, columns );
+    }
+
+    else if( columns[0] === 'Proto' ){
+      headers = columns;
+    }
+
+  });
+
+  return lines;
+}
+
+netstatd.stdout.on('data', function(data) {
+
+  parse( data ).map( function( line ){
+
+    console.log( 'stdout', JSON.stringify( line ) );
+
+  });
+
+});
+
+netstatd.stderr.on('data', function(data) {
+
+  console.log('err: ' + data);
+
 });
