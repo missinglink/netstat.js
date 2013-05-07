@@ -72,7 +72,7 @@ Example output:
 
 # Binary version
 
-You can install netstat globally by executing `[sudo] npm install -g netstatjs`
+You can install `netstatjs` globally by executing `[sudo] npm install -g netstatjs`
 
 If you installed locally then you can execute it like this `./node_modules/netstatjs/bin/netstatjs --help"
 
@@ -108,14 +108,14 @@ This module is usable but not yet feature rich, netstat provides heaps more cool
 ```javascript
 Released under the MIT(Poetic) Software license
 
-    This work 'as-is' we provide.
-    No warranty express or implied.
-    Therefore, no claim on us will abide.
-    Liability for damages denied.
+  This work 'as-is' we provide.
+  No warranty express or implied.
+  Therefore, no claim on us will abide.
+  Liability for damages denied.
 
-    Permission is granted hereby,
-    to copy, share, and modify.
-    Use as is fit,
-    free or for profit.
-    These rights, on this notice, rely.
+  Permission is granted hereby,
+  to copy, share, and modify.
+  Use as is fit,
+  free or for profit.
+  These rights, on this notice, rely.
 ```
