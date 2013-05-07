@@ -19,7 +19,7 @@ Note: you will need `node` and `npm` installed first.
 
 The easiest way to install `node.js` is with [nave.sh](https://github.com/isaacs/nave) by executing `[sudo] ./nave.sh usemain 0.10`
 
-You will need `netstat` installed, this is not a replacement for `netstat`; just a wrapper. On most unix-like systems it should be provided by default by the `net-tools` package.
+You will need `netstat` installed, this is not a replacement for `netstat`; just a wrapper. On most unix-like systems it should be provided by default in the `net-tools` package.
 
 ---
 
@@ -74,7 +74,7 @@ Example output:
 
 You can install `netstatjs` globally by executing `[sudo] npm install -g netstat`
 
-If you installed locally then you can execute it like this `./node_modules/netstatjs/bin/netstatjs --help`
+If you installed locally then you can execute it like this `./node_modules/netstat/bin/netstatjs --help`
 
 The binary version has a few nice features like daemonizing & sending json stats to stdout or via socketio.
 
