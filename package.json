@@ -2,7 +2,7 @@
   "name": "netstat",
   "preferGlobal": false,
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple js wrapper for the netstat daemon",
   "contributors": [],
   "dependencies": {
@@ -13,7 +13,6 @@
   "bin": {
     "netstatjs": "./bin/netstatjs"
   },
-  "readme": "# A simple js wrapper for the netstat daemon.",
   "engines": {
     "node": ">0.6.0",
     "npm": ">1.1.x"
