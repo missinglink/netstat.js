@@ -1,5 +1,5 @@
 {
-  "name": "netstatjs",
+  "name": "netstat",
   "preferGlobal": false,
   "private": false,
   "version": "0.0.1",
@@ -11,7 +11,7 @@
   },
   "main": "./lib/netstat",
   "bin": {
-    "ciao": "./bin/netstatjs"
+    "netstatjs": "./bin/netstatjs"
   },
   "readme": "# A simple js wrapper for the netstat daemon.",
   "engines": {

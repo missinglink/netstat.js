@@ -12,7 +12,7 @@ Output is available in json or as raw stdout lines.
 # Installing
 
 ```bash
-$ npm install netstatjs --save
+$ npm install netstat --save
 ```
 
 Note: you will need `node` and `npm` installed first.
@@ -72,7 +72,7 @@ Example output:
 
 # Binary version
 
-You can install `netstatjs` globally by executing `[sudo] npm install -g netstatjs`
+You can install `netstatjs` globally by executing `[sudo] npm install -g netstat`
 
 If you installed locally then you can execute it like this `./node_modules/netstatjs/bin/netstatjs --help"
 
