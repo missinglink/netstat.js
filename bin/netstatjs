@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+var path = require( 'path' );
+var program = require('commander');
+var version = require('../package').version;
+
+program
+  .version(version)
+  .usage('[options]')
+  .option('-s, --socketio [port]', 'bind socketio to port and stream stats in json')
+  .option('-j, --json [indent]', 'pipe json stats to stdout/stderr')
+  .option('-r, --raw', 'pipe raw stats to stdout/stderr')
+  .parse(process.argv);
+
+// pipe json stats to stdout/stderr
+if( program.json ){ require( './command/json' ).call( program ); }
+
+// pipe raw stats to stdout/stderr
+else if( program.raw ){ require( './command/raw' ).call( program ); }
+
+// bind socketio to port and stream stats in json
+else if( program.socketio ){ require( './command/socketio' ).call( program ); }
+
+else {
+  program.help();
+}

@@ -1,0 +1,25 @@
+{
+  "name": "netstatjs",
+  "preferGlobal": false,
+  "private": false,
+  "version": "0.0.1",
+  "description": "A simple js wrapper for the netstat daemon",
+  "contributors": [],
+  "dependencies": {
+    "commander": "~1.1.1",
+    "socket.io": "~0.9.14"
+  },
+  "main": "./lib/netstat",
+  "bin": {
+    "ciao": "./bin/netstatjs"
+  },
+  "readme": "# A simple js wrapper for the netstat daemon.",
+  "engines": {
+    "node": ">0.6.0",
+    "npm": ">1.1.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/missinglink/netstatjs.git"
+  }
+}

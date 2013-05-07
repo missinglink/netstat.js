@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://localhost:2001/socket.io/socket.io.js"></script>
+    <script src="./jquery-1.9.1.min.js" type="text/javascript"></script>
+    <style>
+      table {
+        width: 100%;
+      }
+      th, td {
+        font-family: 'Vendana', sans-serif;
+        font-size: 12px;
+      }
+    </style>
+    <script>
+      var socket = io.connect('http://localhost:2001');
+
+      var cache = {};
+
+      // Clean up dead entries
+      setInterval( function(){
+        Object.keys( cache ).forEach( function( key ){
+          if( cache[key] && cache[key].datestamp < ( ( new Date() ).getTime() - 2000 ) ){
+            cache[key] = undefined;
+          }
+        });
+      }, 1000);
+
+      var headers = [];
+
+      // Render table
+      setInterval( function(){
+
+        var $head = $('#Tstdout thead');
+        var $body = $('#Tstdout tbody');
+
+        // Render headers
+        if( !$head.children().length && Object.keys(cache).length > 0 ){
+          headers = Object.keys( cache[ Object.keys(cache)[0] ] );
+          var $tr = $('<tr></tr>');
+          headers.forEach( function( key ){
+            $tr.append( $('<th>' + key + '</th>') );
+          });
+          $head.append( $tr );
+        }
+
+        var $tempbody = $('<tbody></tbody>');
+        // $body.empty();
+
+        Object.keys( cache ).forEach( function( key ){
+          if( cache[key] ){
+            // if( cache[key]['State'].match( '_WAIT' )){
+              var $tr = $('<tr></tr>');
+              headers.forEach( function( header ){
+                $tr.append( $('<td>' + cache[key][header] + '</td>') );
+              });
+              $tempbody.append( $tr );
+              // buffer += ( JSON.stringify( member ) + '\n' );
+            // }
+          }
+        });
+
+        $body.html( $tempbody.html() );
+        // $('#stdout').text( buffer );
+      }, 500);
+
+      socket.on( 'stats', function ( stats ) {
+
+        stats.forEach( function( stat ){
+
+          if( stat['Inode'] ){
+            stat.datestamp = ( new Date() ).getTime();
+            cache[ uniq(stat) ] = stat;
+          }
+        });
+      });
+
+      socket.on('stdout', function ( data ) {
+        // $('#stdout').text( data );
+        // data.split('\n').forEach( function( line ){
+          // console.log( line );
+        // });
+      });
+
+      function uniq( stat ){
+        return stat['Inode'] + stat['PID/Program-name'] + stat['Local-Address'] + stat['Foreign-Address']
+      }
+    </script>
+  </head>
+
+  <body>
+    <table id="Tstdout">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+    <pre id="stdout"></pre>
+  </body>
+</html>
