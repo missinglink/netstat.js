@@ -119,3 +119,6 @@ Use as is fit,
 free or for profit.
 These rights, on this notice, rely.
 ```
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/missinglink/netstat.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
